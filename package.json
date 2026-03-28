@@ -1,0 +1,9 @@
+{
+  "name": "cc-hair-beauty-consultation",
+  "version": "1.0.0",
+  "description": "CC Hair & Beauty AI Hair Consultation App",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
