@@ -57,29 +57,27 @@ h1 em{font-style:italic;color:var(--gold)}
 .spin{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold-light);border-top-color:var(--gold);animation:spin .8s linear infinite;margin:0 auto 18px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .ltxt{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--muted);font-style:italic}
-/* Results */
 .rlabel{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:5px;display:flex;align-items:center;gap:8px}
 .rlabel::after{content:'';flex:1;height:1px;background:var(--border)}
 .rtitle{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:14px}
 .dtext{font-size:14px;line-height:1.7}
-/* Routine steps */
-.routine-section{margin-bottom:14px}
-.routine-header{display:flex;align-items:center;gap:10px;padding:14px 0 10px;border-bottom:1px solid var(--border);margin-bottom:4px}
-.routine-icon{font-size:22px}
-.routine-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--black)}
+/* Age warning */
+.age-warn{background:#FFF3CD;border:1px solid #FFD700;border-radius:10px;padding:12px 16px;font-size:12px;color:#856404;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start}
+/* Ingredients */
+.ing-pill{display:inline-flex;align-items:center;gap:4px;background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--text);margin:3px}
+/* Step items */
 .step-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid rgba(201,168,76,0.12)}
 .step-item:last-child{border-bottom:none}
 .step-left{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--gold-pale);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--gold);margin-top:2px}
 .step-right{flex:1}
 .step-text{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:8px}
-/* Inline product card */
 .inline-prod{background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:10px;padding:10px;display:flex;gap:10px;align-items:center;margin-top:6px}
-.inline-prod img{width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#eee}
+.inline-prod img{width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0}
 .inline-prod-ph{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,var(--gold-pale),#ddd);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .inline-prod-info{flex:1;min-width:0}
 .inline-prod-name{font-size:12px;font-weight:500;color:var(--black);margin-bottom:2px;line-height:1.3}
 .inline-prod-why{font-size:11px;color:var(--muted);margin-bottom:6px;line-height:1.4}
-.inline-prod-row{display:flex;align-items:center;gap:8px}
+.inline-prod-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .inline-prod-price{font-size:12px;color:var(--gold);font-weight:500}
 .atc-btn{padding:5px 12px;background:var(--gold);color:var(--black);border:none;border-radius:6px;cursor:pointer;font-family:'Jost',sans-serif;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:all .2s;white-space:nowrap}
 .atc-btn:hover{background:#B8922A}
@@ -96,6 +94,27 @@ h1 em{font-style:italic;color:var(--gold)}
 .tool-why{font-size:11px;color:var(--muted);line-height:1.4;margin-bottom:6px}
 .tool-bottom{display:flex;align-items:center;justify-content:space-between;gap:6px}
 .tool-price{font-size:12px;color:var(--gold);font-weight:500}
+/* Bundle */
+.bundle-box{background:linear-gradient(135deg,#0A0807,#1A1208);border-radius:16px;padding:24px;margin-bottom:14px}
+.bundle-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:#FAF8F5;font-weight:300;margin-bottom:4px}
+.bundle-title em{color:var(--gold);font-style:italic}
+.bundle-sub{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:16px}
+.bundle-items{margin-bottom:16px}
+.bundle-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.7)}
+.bundle-item:last-child{border-bottom:none}
+.bundle-prices{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid rgba(201,168,76,.3);margin-top:8px}
+.bundle-orig{font-size:13px;color:rgba(255,255,255,.4);text-decoration:line-through}
+.bundle-total{font-size:20px;color:var(--gold);font-weight:500;font-family:'Cormorant Garamond',serif}
+.bundle-save{font-size:11px;color:#2ecc71;letter-spacing:1px;text-transform:uppercase}
+.bundle-btn{width:100%;padding:14px;background:var(--gold);color:var(--black);border:none;border-radius:12px;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-top:12px;transition:all .2s}
+.bundle-btn:hover{background:#B8922A}
+/* Share */
+.share-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;text-align:center}
+.share-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;margin-bottom:6px}
+.share-sub{font-size:12px;color:var(--muted);margin-bottom:14px}
+.share-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.share-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1.5px solid var(--border);background:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;color:var(--text);transition:all .2s}
+.share-btn:hover{border-color:var(--gold);background:var(--gold-pale)}
 /* Expert tip */
 .tip{background:linear-gradient(135deg,var(--gold-pale),#FDF8EE);border:1px solid var(--gold-light);border-radius:10px;padding:16px;display:flex;gap:12px}
 .tic{font-size:22px;flex-shrink:0}
@@ -112,10 +131,7 @@ h1 em{font-style:italic;color:var(--gold)}
 .nlb{padding:12px 18px;background:var(--gold);color:var(--black);border:none;border-radius:10px;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
 .rbtn{display:block;margin:20px auto 0;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 .rbtn:hover{color:var(--gold)}
-/* Debug hidden */
-#debugBar{display:none}
-.dacts.hidden{display:none}
-@media(max-width:480px){.g3{grid-template-columns:1fr 1fr}.tools-grid{grid-template-columns:1fr}.nlr{flex-direction:column}}
+@media(max-width:480px){.g3{grid-template-columns:1fr 1fr}.tools-grid{grid-template-columns:1fr}.nlr{flex-direction:column}.share-btns{flex-direction:column;align-items:center}}
 </style>
 </head>
 <body>
@@ -127,7 +143,7 @@ h1 em{font-style:italic;color:var(--gold)}
 </div>
 
 <div class="prog" id="prog" style="display:none">
-  <div class="pd" id="d1"></div><div class="pd" id="d2"></div><div class="pd" id="d3"></div>
+  <div class="pd" id="d1"></div><div class="pd" id="d2"></div><div class="pd" id="d3"></div><div class="pd" id="d4"></div>
 </div>
 
 <div class="wrap">
@@ -140,7 +156,7 @@ h1 em{font-style:italic;color:var(--gold)}
     <div style="font-size:12px;color:var(--muted);margin-top:4px">Start free — no account needed</div>
   </div>
   <div id="vTrial">
-    <div class="trial">✦ <strong>Free Trial Consultation</strong> ✦<br>Get your full A-Z personalised hair plan today</div>
+    <div class="trial">✦ <strong>Free Trial Consultation</strong> ✦<br>Your complete personalised A-Z hair plan</div>
     <button class="btn" onclick="startTrial()">Start Free Consultation</button>
     <div class="divx"><span>or</span></div>
     <button class="btn btn-dk" onclick="show('vSignup')">Create an Account</button>
@@ -165,10 +181,30 @@ h1 em{font-style:italic;color:var(--gold)}
 </div>
 </div>
 
+<!-- AGE -->
+<div class="step" id="sAge">
+  <div class="slabel">Step 1 of 4</div>
+  <div class="stitle">Who is this consultation for?</div>
+  <div class="g2">
+    <button class="sb" id="ageAdult" onclick="setAge('adult')">
+      <span class="ic">🧑</span><span class="lb">Adult<br><span style="font-size:10px;color:var(--muted)">18 & over</span></span>
+    </button>
+    <button class="sb" id="ageChild" onclick="setAge('child')">
+      <span class="ic">👦</span><span class="lb">Child<br><span style="font-size:10px;color:var(--muted)">Under 18</span></span>
+    </button>
+  </div>
+  <div id="childWarning" style="display:none" class="age-warn" style="margin-top:12px">
+    ⚠️ <span>Child-safe products only. Chemical treatments, relaxers, bleach and heat tools will not be recommended for children. This complies with UK cosmetic safety regulations.</span>
+  </div>
+  <button class="btn" style="margin-top:20px" id="btnAge" disabled onclick="go('sEth',loadEth)">Continue</button>
+</div>
+
 <!-- ETHNICITY -->
 <div class="step" id="sEth">
-  <div class="slabel">Step 1 of 3</div>
+  <button class="ghost" onclick="go('sAge')">← Back</button>
+  <div class="slabel">Step 2 of 4</div>
   <div class="stitle">What is your hair background?</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">You can select multiple if mixed</p>
   <div class="g2" id="ethGrid"></div>
   <button class="btn" style="margin-top:20px" id="btnE" disabled onclick="go('sHair',loadHair)">Continue</button>
 </div>
@@ -176,19 +212,25 @@ h1 em{font-style:italic;color:var(--gold)}
 <!-- HAIR TYPE -->
 <div class="step" id="sHair">
   <button class="ghost" onclick="go('sEth')">← Back</button>
-  <div class="slabel">Step 2 of 3</div>
+  <div class="slabel">Step 3 of 4</div>
   <div class="stitle">Select your hair type</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">You can select multiple textures</p>
   <div id="hairList"></div>
   <button class="btn" style="margin-top:12px" id="btnH" disabled onclick="go('sCon',loadCons)">Continue</button>
 </div>
 
-<!-- CONCERNS -->
+<!-- CONCERNS + INGREDIENTS -->
 <div class="step" id="sCon">
   <button class="ghost" onclick="go('sHair')">← Back</button>
-  <div class="slabel">Step 3 of 3</div>
-  <div class="stitle">What are your main hair concerns?</div>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Select all that apply</p>
+  <div class="slabel">Step 4 of 4</div>
+  <div class="stitle">Hair concerns & preferences</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Select all concerns that apply</p>
   <div class="g3" id="conGrid"></div>
+  <div style="margin-top:20px">
+    <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:8px">Preferred ingredients (optional)</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Select ingredients you love or want to avoid</p>
+    <div class="g3" id="ingGrid"></div>
+  </div>
   <button class="btn" style="margin-top:20px" id="btnC" disabled onclick="analyse()">Reveal My Full Hair Plan ✦</button>
 </div>
 
@@ -197,7 +239,7 @@ h1 em{font-style:italic;color:var(--gold)}
   <div class="loader">
     <div class="spin"></div>
     <p class="ltxt">Building your complete hair plan…</p>
-    <p style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:1px">Morning routine · Wash day · Night routine · Tools</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:1px">Morning · Wash Day · Night · Tools · Bundle</p>
   </div>
 </div>
 
@@ -206,54 +248,79 @@ h1 em{font-style:italic;color:var(--gold)}
   <div style="text-align:center;margin-bottom:24px">
     <div class="slabel" style="justify-content:center">Your Complete Hair Plan</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;margin-bottom:4px" id="rGreet">Hello ✦</div>
-    <p style="font-size:13px;color:var(--muted)">Your personalised A-Z CC Hair & Beauty regime</p>
+    <p style="font-size:13px;color:var(--muted)" id="rSubtitle">Your personalised A-Z CC Hair & Beauty regime</p>
   </div>
 
-  <!-- Diagnosis -->
+  <div id="rAgeWarn"></div>
+
   <div class="card">
     <div class="rlabel">Hair Diagnosis</div>
     <div class="rtitle">Our Expert Assessment</div>
     <p class="dtext" id="rDiag"></p>
   </div>
 
-  <!-- Morning Routine -->
-  <div class="card" id="rMorning">
+  <div class="card" id="rIngCard">
+    <div class="rlabel">Key Ingredients For You</div>
+    <div class="rtitle">What Your Hair Needs</div>
+    <div id="rIngredients"></div>
+  </div>
+
+  <div class="card">
     <div class="rlabel">Morning Routine</div>
     <div class="rtitle">🌅 Start Your Day Right</div>
     <div id="rMorningSteps"></div>
   </div>
 
-  <!-- Wash Day -->
-  <div class="card" id="rWashDay">
+  <div class="card">
     <div class="rlabel">Wash Day Routine</div>
     <div class="rtitle">🚿 Cleanse & Condition</div>
     <div id="rWashSteps"></div>
   </div>
 
-  <!-- Night Routine -->
-  <div class="card" id="rNight">
+  <div class="card">
     <div class="rlabel">Night Routine</div>
     <div class="rtitle">🌙 Protect While You Sleep</div>
     <div id="rNightSteps"></div>
   </div>
 
-  <!-- Tools & Accessories -->
-  <div class="card" id="rTools">
+  <div class="card">
     <div class="rlabel">Tools & Accessories</div>
     <div class="rtitle">🛠️ Your Complete Kit</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:14px">Brushes · Combs · Bonnets · Silk Pillowcase · Styling Tools</p>
     <div class="tools-grid" id="rToolsGrid"></div>
   </div>
 
-  <!-- Expert Tip -->
+  <div class="bundle-box" id="rBundleBox">
+    <div class="bundle-title">Your <em>Complete Bundle</em></div>
+    <div class="bundle-sub" id="rBundleSub">Save 10% when you buy your full recommended plan</div>
+    <div class="bundle-items" id="rBundleItems"></div>
+    <div class="bundle-prices">
+      <div>
+        <div class="bundle-orig" id="rBundleOrig"></div>
+        <div class="bundle-save" id="rBundleSave"></div>
+      </div>
+      <div class="bundle-total" id="rBundleTotal"></div>
+    </div>
+    <button class="bundle-btn" onclick="addBundleToCart()">🛒 Add Full Bundle to Cart — Save 10%</button>
+  </div>
+
+  <div class="share-box">
+    <div class="share-title">Share & Save 10% 🎁</div>
+    <div class="share-sub">Share your hair plan with friends & family — they get 10% off their first order at CC Hair & Beauty</div>
+    <div class="share-btns">
+      <button class="share-btn" onclick="shareWhatsApp()">💬 Share on WhatsApp</button>
+      <button class="share-btn" onclick="shareLink()">🔗 Copy Link</button>
+      <button class="share-btn" onclick="shareEmail()">📧 Share by Email</button>
+    </div>
+  </div>
+
   <div class="card" id="rTipCard">
     <div class="rlabel">Expert Tip</div>
     <div class="tip"><span class="tic">💛</span><p class="ttx" id="rTip"></p></div>
   </div>
 
-  <!-- View All -->
-  <a href="https://cchairandbeauty.com" target="_blank"><button class="btn">Shop All CC Hair & Beauty Products →</button></a>
+  <a href="https://cchairandbeauty.com" target="_blank"><button class="btn" style="margin-bottom:14px">Shop All CC Hair & Beauty Products →</button></a>
 
-  <!-- Newsletter -->
   <div id="nlWrap">
     <div class="nl">
       <h3>Stay <em>Beautiful</em></h3>
@@ -269,9 +336,8 @@ h1 em{font-style:italic;color:var(--gold)}
 
 </div>
 
-
 <!-- FLOATING CART BAR -->
-<div id="cartBar" style="display:none;position:fixed;bottom:52px;left:0;right:0;z-index:9998;padding:0 16px 8px">
+<div id="cartBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9998;padding:8px 16px">
   <div style="max-width:660px;margin:0 auto">
     <button onclick="openCart()" style="width:100%;padding:14px 20px;background:var(--black);color:#FAF8F5;border:none;border-radius:14px;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:1px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(10,8,7,.3)">
       <span>🛒 Basket <span style="background:var(--gold);color:var(--black);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:6px" id="cartCount">0</span></span>
@@ -299,261 +365,298 @@ h1 em{font-style:italic;color:var(--gold)}
   </div>
 </div>
 
-<!-- Debug hidden - access at /debug.html -->
-<div id="debugBar" style="display:none">
-  <div id="dbBody"></div>
-  <div id="dbCount"></div>
-  <div id="dbActs" class="hidden"></div>
-</div>
+<!-- Hidden debug -->
+<div id="debugBar" style="display:none"><div id="dbBody"></div><div id="dbCount"></div><div id="dbActs" class="hidden"></div></div>
 
 <script>
-// Debug
-let logs=[],dbOpen=false;
-function log(m,d){const t=new Date().toISOString().substr(11,8);const e=`[${t}] ${m}${d!==undefined?' → '+JSON.stringify(d,null,0):''}`;logs.push(e);const b=document.getElementById('dbBody');const c=document.getElementById('dbCount');if(b)b.textContent=logs.join('\n');if(c)c.textContent=`(${logs.length})`;document.getElementById('dbActs').classList.remove('hidden');if(dbOpen&&b)b.scrollTop=b.scrollHeight;console.log(e);}
-function toggleDebug(){dbOpen=!dbOpen;document.getElementById('dbBody').classList.toggle('open',dbOpen);document.getElementById('dbToggleBtn').textContent=dbOpen?'CLOSE ▼':'OPEN ▲';if(dbOpen){const b=document.getElementById('dbBody');if(b)b.scrollTop=b.scrollHeight;}}
-function copyDebug(){navigator.clipboard.writeText(logs.join('\n')).then(()=>{const b=document.querySelector('.dcopy');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy All — Paste to Claude',3000);}).catch(()=>prompt('Copy:',logs.join('\n')));}
-function clearDebug(){logs=[];document.getElementById('dbBody').textContent='';document.getElementById('dbCount').textContent='';}
+// Silent debug — logs to console only
+let logs=[];
+function log(m,d){const t=new Date().toISOString().substr(11,8);const e=`[${t}] ${m}${d!==undefined?' → '+JSON.stringify(d,null,0):''}`;logs.push(e);console.log(e);}
 
 // Data
 const ETHNICITIES=[{id:'european',label:'European',ic:'🌿'},{id:'asian',label:'Asian (East/SE)',ic:'🌸'},{id:'south_asian',label:'South Asian',ic:'✨'},{id:'afro_carib',label:'Afro-Caribbean',ic:'👑'},{id:'mixed',label:'Mixed Texture',ic:'🌺'}];
 const HAIR_TYPES={european:[{id:'1a',lb:'1A – Straight & Fine'},{id:'1b',lb:'1B – Straight & Medium'},{id:'1c',lb:'1C – Straight & Coarse'},{id:'2a',lb:'2A – Wavy & Fine'},{id:'2b',lb:'2B – Wavy & Medium'},{id:'2c',lb:'2C – Wavy & Coarse'}],asian:[{id:'1a',lb:'1A – Straight & Fine'},{id:'1b',lb:'1B – Straight & Medium'},{id:'1c',lb:'1C – Straight & Coarse'},{id:'2a',lb:'2A – Wavy'}],south_asian:[{id:'1b',lb:'1B – Straight & Medium'},{id:'1c',lb:'1C – Straight & Thick'},{id:'2b',lb:'2B – Wavy'},{id:'2c',lb:'2C – Wavy & Coarse'},{id:'3a',lb:'3A – Loose Curls'}],afro_carib:[{id:'3b',lb:'3B – Bouncy Curls'},{id:'3c',lb:'3C – Tight Curls'},{id:'4a',lb:'4A – Coily S-Pattern'},{id:'4b',lb:'4B – Z-Pattern Coils'},{id:'4c',lb:'4C – Tight Zig-Zag Coils'}],mixed:[{id:'2c',lb:'2C – Wavy & Coarse'},{id:'3a',lb:'3A – Loose Curls'},{id:'3b',lb:'3B – Bouncy Curls'},{id:'3c',lb:'3C – Tight Curls'},{id:'4a',lb:'4A – Coily'}]};
 const CONCERNS=[{id:'dry',lb:'Dry & Brittle',ic:'🏜️'},{id:'breakage',lb:'Breakage & Shedding',ic:'💔'},{id:'heat',lb:'Heat Damage',ic:'🔥'},{id:'frizz',lb:'Frizz & Flyaways',ic:'⚡'},{id:'scalp',lb:'Scalp / Dandruff',ic:'❄️'},{id:'growth',lb:'Slow Growth',ic:'🌱'},{id:'colour',lb:'Colour-Treated',ic:'🎨'},{id:'locs',lb:'Locs / Protective',ic:'🌿'},{id:'fine',lb:'Fine / Limp Hair',ic:'🪶'}];
+const INGREDIENTS=[{id:'olive',lb:'Olive Oil',ic:'🫒'},{id:'coconut',lb:'Coconut Oil',ic:'🥥'},{id:'argan',lb:'Argan Oil',ic:'✨'},{id:'castor',lb:'Castor Oil',ic:'🌿'},{id:'shea',lb:'Shea Butter',ic:'🧈'},{id:'rosemary',lb:'Rosemary',ic:'🌿'},{id:'batana',lb:'Batana Oil',ic:'🌴'},{id:'aloe',lb:'Aloe Vera',ic:'🌵'},{id:'biotin',lb:'Biotin',ic:'💊'},{id:'keratin',lb:'Keratin',ic:'💪'},{id:'honey',lb:'Honey',ic:'🍯'},{id:'avocado',lb:'Avocado',ic:'🥑'}];
 
-let S={user:null,eth:null,hair:null,cons:[]};
-log('App loaded v5.0 — Full A-Z Routine');
+let S={user:null,age:null,eth:[],hair:[],cons:[],ings:[]};
+let cartItems=[];
+let bundleProducts=[];
+log('App loaded v6.0');
 
+// Auth
 function show(id){['vTrial','vSignup','vSignin'].forEach(v=>document.getElementById(v).style.display='none');document.getElementById(id).style.display='';}
-function startTrial(){S.user={name:'Guest',trial:true};log('Trial started');go('sEth',loadEth);}
-function doSignup(){const n=document.getElementById('sName').value,e=document.getElementById('sEmail').value,t=document.getElementById('cT').checked;if(!n||!e){document.getElementById('sErr').textContent='Please fill in all fields.';return}if(!t){document.getElementById('sErr').textContent='Please accept the terms.';return}S.user={name:n,email:e};go('sEth',loadEth);}
-function doSignin(){const e=document.getElementById('siEmail').value;if(!e)return;S.user={name:'Member',email:e};go('sEth',loadEth);}
+function startTrial(){S.user={name:'Guest',trial:true};go('sAge');}
+function doSignup(){const n=document.getElementById('sName').value,e=document.getElementById('sEmail').value,t=document.getElementById('cT').checked;if(!n||!e){document.getElementById('sErr').textContent='Please fill in all fields.';return}if(!t){document.getElementById('sErr').textContent='Please accept the terms.';return}S.user={name:n,email:e};go('sAge');}
+function doSignin(){const e=document.getElementById('siEmail').value;if(!e)return;S.user={name:'Member',email:e};go('sAge');}
 
-function go(id,cb){document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');updateProg(id);if(cb)cb();window.scrollTo({top:0,behavior:'smooth'});log('→ step',id);}
-function updateProg(id){const steps=['sEth','sHair','sCon'];const p=document.getElementById('prog');p.style.display=steps.includes(id)?'flex':'none';const i=steps.indexOf(id);['d1','d2','d3'].forEach((d,j)=>{document.getElementById(d).className='pd'+(j<i?' dn':j===i?' on':'');});}
+// Age selection
+function setAge(age){
+  S.age=age;
+  document.querySelectorAll('#sAge .sb').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('age'+age.charAt(0).toUpperCase()+age.slice(1)).classList.add('sel');
+  document.getElementById('childWarning').style.display=age==='child'?'flex':'none';
+  document.getElementById('btnAge').disabled=false;
+  log('Age set',age);
+}
 
-function loadEth(){const g=document.getElementById('ethGrid');g.innerHTML='';ETHNICITIES.forEach(e=>{const b=document.createElement('button');b.className='sb'+(S.eth===e.id?' sel':'');b.innerHTML=`<span class="ic">${e.ic}</span><span class="lb">${e.label}</span>`;b.onclick=()=>{S.eth=e.id;S.hair=null;document.querySelectorAll('#ethGrid .sb').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');document.getElementById('btnE').disabled=false;log('Ethnicity',e.id);};g.appendChild(b);});}
-function loadHair(){const l=document.getElementById('hairList');l.innerHTML='';(HAIR_TYPES[S.eth]||[]).forEach(h=>{const b=document.createElement('button');b.className='hb'+(S.hair===h.id?' sel':'');b.innerHTML=`<span class="dot"></span><span class="lb">${h.lb}</span>`;b.onclick=()=>{S.hair=h.id;document.querySelectorAll('.hb').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');document.getElementById('btnH').disabled=false;log('HairType',h.id);};l.appendChild(b);});}
-function loadCons(){const g=document.getElementById('conGrid');g.innerHTML='';CONCERNS.forEach(c=>{const b=document.createElement('button');b.className='sb'+(S.cons.includes(c.id)?' sel':'');b.innerHTML=`<span class="ic">${c.ic}</span><span class="lb">${c.lb}</span>`;b.onclick=()=>{if(S.cons.includes(c.id)){S.cons=S.cons.filter(x=>x!==c.id);b.classList.remove('sel')}else{S.cons.push(c.id);b.classList.add('sel')}document.getElementById('btnC').disabled=S.cons.length===0;log('Concerns',S.cons);};g.appendChild(b);});}
+// Navigation
+function go(id,cb){document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');updateProg(id);if(cb)cb();window.scrollTo({top:0,behavior:'smooth'});log('→',id);}
+function updateProg(id){
+  const steps=['sAge','sEth','sHair','sCon'];
+  const p=document.getElementById('prog');
+  p.style.display=steps.includes(id)?'flex':'none';
+  const i=steps.indexOf(id);
+  ['d1','d2','d3','d4'].forEach((d,j)=>{document.getElementById(d).className='pd'+(j<i?' dn':j===i?' on':'');});
+}
 
+// Ethnicity — multiple select
+function loadEth(){
+  const g=document.getElementById('ethGrid');g.innerHTML='';
+  ETHNICITIES.forEach(e=>{
+    const b=document.createElement('button');
+    b.className='sb'+(S.eth.includes(e.id)?' sel':'');
+    b.innerHTML=`<span class="ic">${e.ic}</span><span class="lb">${e.label}</span>`;
+    b.onclick=()=>{
+      if(S.eth.includes(e.id))S.eth=S.eth.filter(x=>x!==e.id);
+      else S.eth.push(e.id);
+      b.classList.toggle('sel',S.eth.includes(e.id));
+      document.getElementById('btnE').disabled=S.eth.length===0;
+      log('Eth',S.eth);
+    };
+    g.appendChild(b);
+  });
+}
+
+// Hair types — multiple select
+function loadHair(){
+  const l=document.getElementById('hairList');l.innerHTML='';
+  // Show hair types for all selected ethnicities
+  const types=[];const seen=new Set();
+  S.eth.forEach(e=>{(HAIR_TYPES[e]||[]).forEach(h=>{if(!seen.has(h.id)){seen.add(h.id);types.push(h);}});});
+  types.forEach(h=>{
+    const b=document.createElement('button');
+    b.className='hb'+(S.hair.includes(h.id)?' sel':'');
+    b.innerHTML=`<span class="dot"></span><span class="lb">${h.lb}</span>`;
+    b.onclick=()=>{
+      if(S.hair.includes(h.id))S.hair=S.hair.filter(x=>x!==h.id);
+      else S.hair.push(h.id);
+      b.classList.toggle('sel',S.hair.includes(h.id));
+      document.querySelectorAll('.hb').forEach(x=>x.classList.remove('sel'));
+      S.hair.forEach(id=>{ const btn=Array.from(document.querySelectorAll('.hb')).find(b=>b.querySelector('.lb').textContent.startsWith(id.toUpperCase()));if(btn)btn.classList.add('sel');});
+      b.classList.toggle('sel',S.hair.includes(h.id));
+      document.getElementById('btnH').disabled=S.hair.length===0;
+      log('Hair',S.hair);
+    };
+    l.appendChild(b);
+  });
+}
+
+// Concerns + ingredients
+function loadCons(){
+  const g=document.getElementById('conGrid');g.innerHTML='';
+  CONCERNS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='sb'+(S.cons.includes(c.id)?' sel':'');
+    b.innerHTML=`<span class="ic">${c.ic}</span><span class="lb">${c.lb}</span>`;
+    b.onclick=()=>{
+      if(S.cons.includes(c.id))S.cons=S.cons.filter(x=>x!==c.id);
+      else S.cons.push(c.id);
+      b.classList.toggle('sel',S.cons.includes(c.id));
+      document.getElementById('btnC').disabled=S.cons.length===0;
+    };
+    g.appendChild(b);
+  });
+  const ig=document.getElementById('ingGrid');ig.innerHTML='';
+  INGREDIENTS.forEach(i=>{
+    const b=document.createElement('button');
+    b.className='sb'+(S.ings.includes(i.id)?' sel':'');
+    b.innerHTML=`<span class="ic">${i.ic}</span><span class="lb">${i.lb}</span>`;
+    b.onclick=()=>{
+      if(S.ings.includes(i.id))S.ings=S.ings.filter(x=>x!==i.id);
+      else S.ings.push(i.id);
+      b.classList.toggle('sel',S.ings.includes(i.id));
+    };
+    ig.appendChild(b);
+  });
+}
+
+// Analysis
 async function analyse(){
   go('sLoad');
-  const eth=ETHNICITIES.find(e=>e.id===S.eth)?.label||S.eth;
-  const hair=(HAIR_TYPES[S.eth]||[]).find(h=>h.id===S.hair)?.lb||S.hair;
-  const cons=S.cons.map(c=>CONCERNS.find(x=>x.id===c)?.lb||c);
-  log('=== ANALYSIS START ===',{eth,hair,cons});
+  const ethLabels=S.eth.map(e=>ETHNICITIES.find(x=>x.id===e)?.label||e);
+  const hairLabels=S.hair.map(h=>{for(const k in HAIR_TYPES){const f=HAIR_TYPES[k].find(x=>x.id===h);if(f)return f.lb;}return h;});
+  const conLabels=S.cons.map(c=>CONCERNS.find(x=>x.id===c)?.lb||c);
+  const ingLabels=S.ings.map(i=>INGREDIENTS.find(x=>x.id===i)?.lb||i);
+  log('Analysis start',{eth:ethLabels,hair:hairLabels,cons:conLabels,ings:ingLabels,age:S.age});
   try{
-    const r=await fetch('/api/analyse',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ethnicity:eth,hairType:hair,concerns:cons})});
+    const r=await fetch('/api/analyse',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ethnicity:ethLabels.join(', '),hairType:hairLabels.join(', '),concerns:conLabels,ageGroup:S.age,ingredients:ingLabels})});
     log('Response',{status:r.status,ok:r.ok});
     const raw=await r.text();
-    log('Raw (500 chars)',raw.substring(0,500));
-    if(!r.ok){showErr(`Server error ${r.status}: ${raw.substring(0,200)}`);return;}
+    log('Raw (300)',raw.substring(0,300));
+    if(!r.ok){showErr('Error '+r.status);return;}
     const a=JSON.parse(raw);
-    log('Parsed OK',{keys:Object.keys(a)});
+    log('Parsed',{keys:Object.keys(a),products:a._debug?.productCount});
     showRes(a);
   }catch(err){
     log('ERROR',err.message);
-    showErr('Network error: '+err.message);
+    showErr(err.message);
   }
 }
 
-// Find matching product from store by exact or partial title match
-function findProduct(name, allProducts){
-  if(!name||!allProducts?.length) return null;
+function findProduct(name,all){
+  if(!name||!all?.length)return null;
   const n=name.toLowerCase().trim();
-  // Try exact match first
-  let match = allProducts.find(p=>p.title?.toLowerCase().trim()===n);
-  if(match) return match;
-  // Try if product title contains the name
-  match = allProducts.find(p=>p.title?.toLowerCase().includes(n));
-  if(match) return match;
-  // Try if name contains the product title
-  match = allProducts.find(p=>n.includes(p.title?.toLowerCase()));
-  if(match) return match;
-  // Try first significant word match (skip words under 4 chars)
-  const words = n.split(' ').filter(w=>w.length>3);
-  for(const word of words){
-    match = allProducts.find(p=>p.title?.toLowerCase().includes(word));
-    if(match) return match;
-  }
+  let m=all.find(p=>p.title?.toLowerCase().trim()===n);if(m)return m;
+  m=all.find(p=>p.title?.toLowerCase().includes(n));if(m)return m;
+  m=all.find(p=>n.includes(p.title?.toLowerCase()));if(m)return m;
+  const words=n.split(' ').filter(w=>w.length>3);
+  for(const w of words){m=all.find(p=>p.title?.toLowerCase().includes(w));if(m)return m;}
   return null;
 }
 
-// Log debug info from API response
-function logDebug(a){
-  if(a._debug){
-    log('Shopify debug',{
-      productCount: a._debug.productCount,
-      hasToken: a._debug.hasToken,
-      domain: a._debug.domain,
-      error: a._debug.shopifyError||'none'
-    });
-  }
-}
-
-// Render a routine step with optional inline product
-function renderStep(container, steps, allProducts){
+function renderStep(container,steps,allProds){
   (steps||[]).forEach((s,i)=>{
-    const prod = s.product ? findProduct(s.product, allProducts) : null;
-    const div=document.createElement('div');
-    div.className='step-item';
-    let prodHtml='';
+    const prod=s.product?findProduct(s.product,allProds):null;
+    const div=document.createElement('div');div.className='step-item';
+    let ph='';
     if(s.product){
-      const img=prod?.image?`<img src="${prod.image}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" /><div class="inline-prod-ph" style="display:none">🧴</div>`:`<div class="inline-prod-ph">🧴</div>`;
+      const img=prod?.image?`<img src="${prod.image}" style="width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0" onerror="this.outerHTML='<div class=inline-prod-ph>🧴</div>'" />`:`<div class="inline-prod-ph">🧴</div>`;
       const price=prod?`<span class="inline-prod-price">£${parseFloat(prod.price).toFixed(2)}</span>`:'';
-      const btn=prod?.variantId
-        ?`<button class="atc-btn" onclick="addToCart(${prod.variantId},'${prod.handle}',this)">Add to Cart</button>`
-        :`<a href="https://cchairandbeauty.com/products/${prod?.handle||''}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">View Product →</a>`;
-      prodHtml=`<div class="inline-prod">${img}<div class="inline-prod-info"><div class="inline-prod-name">${prod?.title||s.product}</div><div class="inline-prod-why">${s.why||''}</div><div class="inline-prod-row">${price}${btn}</div></div></div>`;
+      const btn=prod?.variantId?`<button class="atc-btn" onclick="addToCart(${prod.variantId},'${prod.handle}','${(prod.title||'').replace(/'/g,"\\'")}',${prod.price},null,this)">Add to Cart</button>`:`<a href="https://cchairandbeauty.com/search?q=${encodeURIComponent(s.product)}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">Find →</a>`;
+      ph=`<div class="inline-prod">${img}<div class="inline-prod-info"><div class="inline-prod-name">${prod?.title||s.product}</div><div class="inline-prod-why">${s.why||''}</div><div class="inline-prod-row">${price}${btn}</div></div></div>`;
     }
-    div.innerHTML=`<div class="step-left">${i+1}</div><div class="step-right"><div class="step-text">${s.step}</div>${prodHtml}</div>`;
+    div.innerHTML=`<div class="step-left">${i+1}</div><div class="step-right"><div class="step-text">${s.step}</div>${ph}</div>`;
     container.appendChild(div);
   });
 }
 
 function showRes(a){
   go('sRes');
-  const allProducts=a.products||[];
+  const allP=a.products||[];
+  bundleProducts=a.bundle?.productDetails||[];
+
   document.getElementById('rGreet').textContent=`Hello, ${S.user?.name||'Beautiful'} ✦`;
+
+  // Age warning for child
+  const aw=document.getElementById('rAgeWarn');
+  if(S.age==='child'){
+    aw.innerHTML=`<div class="age-warn">👦 <span>Child-safe plan — only gentle, chemical-free products are recommended. No relaxers, perms, bleach or harsh chemical treatments.</span></div>`;
+  } else aw.innerHTML='';
+
   document.getElementById('rDiag').textContent=a.diagnosis||'';
 
-  // Morning routine
-  const mEl=document.getElementById('rMorningSteps');mEl.innerHTML='';
-  renderStep(mEl, a.morningRoutine, allProducts);
+  // Key ingredients
+  const ingEl=document.getElementById('rIngredients');ingEl.innerHTML='';
+  if(a.keyIngredients?.length){
+    a.keyIngredients.forEach(ki=>{
+      const div=document.createElement('div');
+      div.style.cssText='margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)';
+      div.innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span class="ing-pill">✦ ${ki.ingredient}</span></div><div style="font-size:13px;color:var(--text);line-height:1.6">${ki.benefit}</div>`;
+      ingEl.appendChild(div);
+    });
+    document.getElementById('rIngCard').style.display='';
+  } else document.getElementById('rIngCard').style.display='none';
 
-  // Wash day
-  const wEl=document.getElementById('rWashSteps');wEl.innerHTML='';
-  renderStep(wEl, a.washDayRoutine, allProducts);
+  // Routines
+  const mEl=document.getElementById('rMorningSteps');mEl.innerHTML='';renderStep(mEl,a.morningRoutine,allP);
+  const wEl=document.getElementById('rWashSteps');wEl.innerHTML='';renderStep(wEl,a.washDayRoutine,allP);
+  const nEl=document.getElementById('rNightSteps');nEl.innerHTML='';renderStep(nEl,a.nightRoutine,allP);
 
-  // Night routine
-  const nEl=document.getElementById('rNightSteps');nEl.innerHTML='';
-  renderStep(nEl, a.nightRoutine, allProducts);
-
-  // Tools & Accessories
+  // Tools — accessories only
   const tEl=document.getElementById('rToolsGrid');tEl.innerHTML='';
   (a.toolsAndAccessories||[]).forEach(tool=>{
-    const prod=findProduct(tool.item, allProducts);
-    const card=document.createElement('div');
-    card.className='tool-card';
-    const img=prod?.image?`<img class="tool-img" src="${prod.image}" onerror="this.outerHTML='<div class=tool-ph>🔧</div>'" />`:`<div class="tool-ph">${tool.category.includes('Sleep')?'😴':tool.category.includes('Electric')?'⚡':tool.category.includes('Brush')?'💆':'✨'}</div>`;
+    const prod=findProduct(tool.item,allP.filter(p=>p.isAccessory));
+    const card=document.createElement('div');card.className='tool-card';
+    const ic=tool.category.includes('Sleep')||tool.category.includes('Night')||tool.category.includes('Pillow')||tool.category.includes('Bonnet')?'😴':tool.category.includes('Electric')||tool.category.includes('Tool')?'⚡':tool.category.includes('Brush')||tool.category.includes('Comb')?'💆':'✨';
+    const img=prod?.image?`<img class="tool-img" src="${prod.image}" onerror="this.outerHTML='<div class=tool-ph>${ic}</div>'" />`:`<div class="tool-ph">${ic}</div>`;
     const price=prod?`<span class="tool-price">£${parseFloat(prod.price).toFixed(2)}</span>`:'';
-    const btn=prod?.variantId
-      ?`<button class="atc-btn" onclick="addToCart(${prod.variantId},'${prod.handle}',this)">Add to Cart</button>`
-      :`<a href="https://cchairandbeauty.com/products/${prod?.handle||''}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">View Product →</a>`;
+    const btn=prod?.variantId?`<button class="atc-btn" onclick="addToCart(${prod.variantId},'${prod.handle}','${(prod.title||'').replace(/'/g,"\\'")}',${prod.price},'${prod.image||''}',this)">Add to Cart</button>`:`<a href="https://cchairandbeauty.com/search?q=${encodeURIComponent(tool.item)}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">Find →</a>`;
     card.innerHTML=`${img}<div class="tool-info"><div class="tool-cat">${tool.category}</div><div class="tool-name">${prod?.title||tool.item}</div><div class="tool-why">${tool.why}</div><div class="tool-bottom">${price}${btn}</div></div>`;
     tEl.appendChild(card);
   });
 
+  // Bundle
+  if(a.bundle){
+    const bi=document.getElementById('rBundleItems');bi.innerHTML='';
+    (a.bundle.products||[]).forEach(name=>{
+      const d=document.createElement('div');d.className='bundle-item';
+      const prod=findProduct(name,allP);
+      const price=prod?` — £${parseFloat(prod.price).toFixed(2)}`:'';
+      d.innerHTML=`<span style="color:var(--gold)">✦</span><span>${name}${price}</span>`;
+      bi.appendChild(d);
+    });
+    document.getElementById('rBundleOrig').textContent=`Was £${a.bundle.originalTotal?.toFixed(2)||'0.00'}`;
+    document.getElementById('rBundleTotal').textContent=`£${a.bundle.bundleTotal?.toFixed(2)||'0.00'}`;
+    document.getElementById('rBundleSave').textContent=`YOU SAVE £${a.bundle.saving?.toFixed(2)||'0.00'}`;
+    document.getElementById('rBundleBox').style.display='';
+  } else document.getElementById('rBundleBox').style.display='none';
+
   // Expert tip
   if(a.keyTip){document.getElementById('rTip').textContent=a.keyTip;document.getElementById('rTipCard').style.display='';}
   else document.getElementById('rTipCard').style.display='none';
-
-  logDebug(a);
-  log('=== RESULTS SHOWN ===');
+  log('Results shown');
 }
 
-function showErr(msg){
-  go('sRes');
-  document.getElementById('rGreet').textContent=`Hello, ${S.user?.name||'Beautiful'} ✦`;
-  document.getElementById('rDiag').textContent='There was an issue generating your plan. Check the debug console below.';
-  log('SHOW ERROR',msg);
-}
+function showErr(msg){go('sRes');document.getElementById('rDiag').textContent='There was an issue. Please try again. ('+msg+')';}
 
-// Cart items stored locally
-let cartItems = [];
-
-function addToCart(variantId, handle, btn){
-  log('Add to cart', {variantId, handle});
-  
-  // Check if already in cart
-  const exists = cartItems.find(i => i.variantId === variantId);
-  if(exists){
-    exists.qty++;
-    btn.textContent = `✓ In Cart (${exists.qty})`;
-    btn.classList.add('added');
-    updateCartBar();
-    return;
-  }
-
-  // Get product info from button's parent
-  const card = btn.closest('.inline-prod, .tool-info');
-  const name = card?.querySelector('.inline-prod-name, .tool-name')?.textContent || handle;
-  const priceEl = card?.querySelector('.inline-prod-price, .tool-price');
-  const price = priceEl?.textContent?.replace('£','') || '0.00';
-  const imgEl = btn.closest('.inline-prod, .tool-card')?.querySelector('img');
-  const image = imgEl?.src || null;
-
-  cartItems.push({ variantId, handle, name, price: parseFloat(price), qty: 1, image });
-  
-  btn.textContent = '✓ Added!';
-  btn.classList.add('added');
-  btn.style.background = '#2ecc71';
-  
+// Cart
+function addToCart(variantId,handle,name,price,image,btn){
+  const exists=cartItems.find(i=>i.variantId===variantId);
+  if(exists){exists.qty++;btn.textContent=`✓ In Cart (${exists.qty})`;updateCartBar();return;}
+  cartItems.push({variantId,handle,name,price:parseFloat(price)||0,qty:1,image});
+  btn.textContent='✓ Added!';btn.classList.add('added');btn.style.background='#2ecc71';
   updateCartBar();
-  log('Added to local cart', {name, total: cartItems.length});
+  log('Added to cart',{name});
+}
+
+function addBundleToCart(){
+  if(!bundleProducts?.length){window.open('https://cchairandbeauty.com','_blank');return;}
+  bundleProducts.forEach(p=>{
+    const exists=cartItems.find(i=>i.variantId===p.variantId);
+    if(!exists) cartItems.push({variantId:p.variantId,handle:p.handle,name:p.title,price:parseFloat(p.price)||0,qty:1,image:p.image});
+  });
+  updateCartBar();
+  openCart();
+  log('Bundle added',bundleProducts.length+' items');
 }
 
 function updateCartBar(){
-  const bar = document.getElementById('cartBar');
-  const count = cartItems.reduce((s,i)=>s+i.qty, 0);
-  const total = cartItems.reduce((s,i)=>s+(i.price*i.qty), 0);
-  
-  if(count === 0){ bar.style.display='none'; return; }
-  
-  bar.style.display = 'block';
-  document.getElementById('cartCount').textContent = count;
-  document.getElementById('cartTotal').textContent = `£${total.toFixed(2)}`;
+  const bar=document.getElementById('cartBar');
+  const count=cartItems.reduce((s,i)=>s+i.qty,0);
+  const total=cartItems.reduce((s,i)=>s+(i.price*i.qty),0);
+  if(count===0){bar.style.display='none';return;}
+  bar.style.display='block';
+  document.getElementById('cartCount').textContent=count;
+  document.getElementById('cartTotal').textContent=`£${total.toFixed(2)}`;
 }
 
 function openCart(){
-  const modal = document.getElementById('cartModal');
-  const list = document.getElementById('cartList');
-  list.innerHTML = '';
-  
-  if(cartItems.length === 0){
-    list.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">Your basket is empty</p>';
-  } else {
-    cartItems.forEach((item, idx) => {
-      const div = document.createElement('div');
-      div.style.cssText = 'display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:center';
-      const img = item.image ? `<img src="${item.image}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0" />` : `<div style="width:48px;height:48px;border-radius:8px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🧴</div>`;
-      div.innerHTML = `${img}
-        <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:500;color:var(--black);margin-bottom:2px;line-height:1.3">${item.name}</div>
-          <div style="font-size:12px;color:var(--gold)">£${item.price.toFixed(2)} × ${item.qty}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <button onclick="changeQty(${idx},-1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">−</button>
-          <span style="font-size:13px;font-weight:500;min-width:16px;text-align:center">${item.qty}</span>
-          <button onclick="changeQty(${idx},1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">+</button>
-        </div>`;
-      list.appendChild(div);
-    });
-  }
-  
-  const total = cartItems.reduce((s,i)=>s+(i.price*i.qty),0);
-  document.getElementById('cartModalTotal').textContent = `£${total.toFixed(2)}`;
-  modal.style.display = 'flex';
+  const list=document.getElementById('cartList');list.innerHTML='';
+  cartItems.forEach((item,idx)=>{
+    const div=document.createElement('div');
+    div.style.cssText='display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:center';
+    const img=item.image?`<img src="${item.image}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0" />`:`<div style="width:48px;height:48px;border-radius:8px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🧴</div>`;
+    div.innerHTML=`${img}<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;color:var(--black);margin-bottom:2px;line-height:1.3">${item.name}</div><div style="font-size:12px;color:var(--gold)">£${item.price.toFixed(2)} × ${item.qty}</div></div><div style="display:flex;align-items:center;gap:6px"><button onclick="changeQty(${idx},-1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:14px">−</button><span style="font-size:13px;font-weight:500;min-width:16px;text-align:center">${item.qty}</span><button onclick="changeQty(${idx},1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:14px">+</button></div>`;
+    list.appendChild(div);
+  });
+  if(cartItems.length===0)list.innerHTML='<p style="text-align:center;color:var(--muted);padding:20px">Your basket is empty</p>';
+  const total=cartItems.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('cartModalTotal').textContent=`£${total.toFixed(2)}`;
+  document.getElementById('cartModal').style.display='flex';
 }
 
-function changeQty(idx, delta){
-  cartItems[idx].qty += delta;
-  if(cartItems[idx].qty <= 0) cartItems.splice(idx, 1);
-  updateCartBar();
-  openCart(); // refresh modal
-}
+function changeQty(idx,d){cartItems[idx].qty+=d;if(cartItems[idx].qty<=0)cartItems.splice(idx,1);updateCartBar();openCart();}
+function closeCart(){document.getElementById('cartModal').style.display='none';}
+function goToCheckout(){if(!cartItems.length)return;const p=cartItems.map(i=>`${i.variantId}:${i.qty}`).join(',');window.open(`https://cchairandbeauty.com/cart/${p}`,'_blank');}
 
-function closeCart(){ document.getElementById('cartModal').style.display='none'; }
+// Share
+function shareWhatsApp(){const msg=`I just got my personalised hair plan from CC Hair & Beauty! Get yours free and save 10% on your first order 💇‍♀️✨ https://cchairandbeauty.com/?ref=share10`;window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);}
+function shareEmail(){const sub='My CC Hair & Beauty Hair Plan — Get 10% Off!';const body=`Hi!\n\nI just got my personalised hair plan from CC Hair & Beauty and I think you'd love it!\n\nGet your free consultation and 10% off your first order here:\nhttps://cchairandbeauty.com/?ref=share10\n\nEnjoy! 💛`;window.open(`mailto:?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`);}
+function shareLink(){navigator.clipboard.writeText('https://cchairandbeauty.com/?ref=share10').then(()=>{const b=document.querySelector('.share-btn:nth-child(2)');const orig=b.textContent;b.textContent='✅ Copied!';setTimeout(()=>b.textContent=orig,2000);});}
 
-function goToCheckout(){
-  if(cartItems.length === 0) return;
-  // Build Shopify cart URL with all items
-  const params = cartItems.map(i=>`${i.variantId}:${i.qty}`).join(',');
-  const url = `https://cchairandbeauty.com/cart/${params}`;
-  log('Going to checkout', url);
-  window.open(url, '_blank');
-}
-
-function subNL(){const e=document.getElementById('nlE').value;if(!e)return;document.getElementById('nlWrap').innerHTML=`<div class="nl"><div style="text-align:center;padding:10px"><div style="font-size:36px;margin-bottom:10px">✦</div><h3 style="margin-bottom:6px">You're on the list!</h3><p>Welcome to the CC Hair & Beauty family</p></div></div>`;log('Newsletter',e);}
-function restart(){S={user:S.user,eth:null,hair:null,cons:[]};go('sEth',loadEth);}
+function subNL(){const e=document.getElementById('nlE').value;if(!e)return;document.getElementById('nlWrap').innerHTML=`<div class="nl"><div style="text-align:center;padding:10px"><div style="font-size:36px;margin-bottom:10px">✦</div><h3 style="margin-bottom:6px">You're on the list!</h3><p>Welcome to the CC Hair & Beauty family</p></div></div>`;}
+function restart(){S={user:S.user,age:null,eth:[],hair:[],cons:[],ings:[]};cartItems=[];bundleProducts=[];updateCartBar();go('sAge');}
 
 loadEth();
 </script>
