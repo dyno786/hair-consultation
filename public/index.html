@@ -8,7 +8,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-light:#E8D5A3;--gold-pale:#F5EDD6;--black:#0A0807;--off-white:#FAF8F5;--text:#1A1410;--muted:#8A7A6A;--card:#FFFFFF;--border:rgba(201,168,76,0.25)}
-body{font-family:'Jost',sans-serif;background:var(--off-white);color:var(--text);min-height:100vh;padding-bottom:80px}
+body{font-family:'Jost',sans-serif;background:var(--off-white);color:var(--text);min-height:100vh;padding-bottom:70px}
 .header{text-align:center;padding:40px 20px 24px}
 .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:40px;padding:6px 18px;margin-bottom:16px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
 .badge::before,.badge::after{content:'✦';font-size:8px}
@@ -112,17 +112,9 @@ h1 em{font-style:italic;color:var(--gold)}
 .nlb{padding:12px 18px;background:var(--gold);color:var(--black);border:none;border-radius:10px;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
 .rbtn{display:block;margin:20px auto 0;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 .rbtn:hover{color:var(--gold)}
-/* Debug bar */
-#debugBar{position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;border-top:2px solid #00ff88;z-index:9999;font-family:monospace;font-size:11px}
-#debugBar .dh{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;cursor:pointer;color:#00ff88}
-#debugBar .dh span{font-weight:bold}
-.dtog{background:#00ff88;color:#1a1a2e;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-family:monospace;font-size:11px;font-weight:bold}
-.dbody{display:none;padding:0 16px 12px;max-height:180px;overflow-y:auto;color:#aaffcc;white-space:pre-wrap;word-break:break-all;border-top:1px solid #00ff8833}
-.dbody.open{display:block}
-.dacts{display:flex;gap:8px;padding:8px 16px 12px;border-top:1px solid #00ff8833}
+/* Debug hidden */
+#debugBar{display:none}
 .dacts.hidden{display:none}
-.dcopy{background:#00ff88;color:#1a1a2e;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:monospace;font-size:11px;font-weight:bold}
-.dclear{background:transparent;color:#ff6666;border:1px solid #ff6666;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:monospace;font-size:11px}
 @media(max-width:480px){.g3{grid-template-columns:1fr 1fr}.tools-grid{grid-template-columns:1fr}.nlr{flex-direction:column}}
 </style>
 </head>
@@ -307,17 +299,11 @@ h1 em{font-style:italic;color:var(--gold)}
   </div>
 </div>
 
-<!-- FLOATING DEBUG BAR -->
-<div id="debugBar">
-  <div class="dh" onclick="toggleDebug()">
-    <span>🔧 Debug Console <span id="dbCount" style="color:#ffcc00"></span></span>
-    <button class="dtog" id="dbToggleBtn">OPEN ▲</button>
-  </div>
-  <div class="dbody" id="dbBody"></div>
-  <div class="dacts hidden" id="dbActs">
-    <button class="dcopy" onclick="copyDebug()">📋 Copy All — Paste to Claude</button>
-    <button class="dclear" onclick="clearDebug()">Clear</button>
-  </div>
+<!-- Debug hidden - access at /debug.html -->
+<div id="debugBar" style="display:none">
+  <div id="dbBody"></div>
+  <div id="dbCount"></div>
+  <div id="dbActs" class="hidden"></div>
 </div>
 
 <script>
