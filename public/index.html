@@ -277,6 +277,36 @@ h1 em{font-style:italic;color:var(--gold)}
 
 </div>
 
+
+<!-- FLOATING CART BAR -->
+<div id="cartBar" style="display:none;position:fixed;bottom:52px;left:0;right:0;z-index:9998;padding:0 16px 8px">
+  <div style="max-width:660px;margin:0 auto">
+    <button onclick="openCart()" style="width:100%;padding:14px 20px;background:var(--black);color:#FAF8F5;border:none;border-radius:14px;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:1px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(10,8,7,.3)">
+      <span>🛒 Basket <span style="background:var(--gold);color:var(--black);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:6px" id="cartCount">0</span></span>
+      <span style="color:var(--gold);font-weight:600" id="cartTotal">£0.00</span>
+    </button>
+  </div>
+</div>
+
+<!-- CART MODAL -->
+<div id="cartModal" style="display:none;position:fixed;inset:0;z-index:10000;align-items:flex-end;justify-content:center;background:rgba(10,8,7,.6)">
+  <div style="background:var(--off-white);width:100%;max-width:660px;border-radius:20px 20px 0 0;padding:24px;max-height:80vh;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400">Your Basket</div>
+      <button onclick="closeCart()" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+    </div>
+    <div id="cartList" style="overflow-y:auto;flex:1;margin-bottom:16px"></div>
+    <div style="border-top:1px solid var(--border);padding-top:16px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:14px">
+        <span style="font-size:14px;font-weight:500">Total</span>
+        <span style="font-size:16px;font-weight:600;color:var(--gold)" id="cartModalTotal">£0.00</span>
+      </div>
+      <button onclick="goToCheckout()" style="width:100%;padding:16px;background:var(--gold);color:var(--black);border:none;border-radius:12px;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase">Proceed to Checkout →</button>
+      <button onclick="closeCart()" style="width:100%;padding:12px;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:8px">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
 <!-- FLOATING DEBUG BAR -->
 <div id="debugBar">
   <div class="dh" onclick="toggleDebug()">
@@ -441,22 +471,99 @@ function showErr(msg){
   log('SHOW ERROR',msg);
 }
 
-async function addToCart(variantId,handle,btn){
-  const orig=btn.textContent;
-  btn.textContent='Adding...';btn.disabled=true;
-  log('Add to cart',{variantId,handle});
-  try{
-    const r=await fetch('https://cchairandbeauty.com/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:variantId,quantity:1}),mode:'cors',credentials:'include'});
-    if(r.ok){
-      btn.textContent='✓ Added!';btn.classList.add('added');
-      log('Cart success',variantId);
-      setTimeout(()=>window.open('https://cchairandbeauty.com/cart','_blank'),800);
-    }else throw new Error('Status '+r.status);
-  }catch(err){
-    log('Cart error',err.message);
-    btn.textContent='View →';btn.disabled=false;
-    btn.onclick=()=>window.open(`https://cchairandbeauty.com/products/${handle}`,'_blank');
+// Cart items stored locally
+let cartItems = [];
+
+function addToCart(variantId, handle, btn){
+  log('Add to cart', {variantId, handle});
+  
+  // Check if already in cart
+  const exists = cartItems.find(i => i.variantId === variantId);
+  if(exists){
+    exists.qty++;
+    btn.textContent = `✓ In Cart (${exists.qty})`;
+    btn.classList.add('added');
+    updateCartBar();
+    return;
   }
+
+  // Get product info from button's parent
+  const card = btn.closest('.inline-prod, .tool-info');
+  const name = card?.querySelector('.inline-prod-name, .tool-name')?.textContent || handle;
+  const priceEl = card?.querySelector('.inline-prod-price, .tool-price');
+  const price = priceEl?.textContent?.replace('£','') || '0.00';
+  const imgEl = btn.closest('.inline-prod, .tool-card')?.querySelector('img');
+  const image = imgEl?.src || null;
+
+  cartItems.push({ variantId, handle, name, price: parseFloat(price), qty: 1, image });
+  
+  btn.textContent = '✓ Added!';
+  btn.classList.add('added');
+  btn.style.background = '#2ecc71';
+  
+  updateCartBar();
+  log('Added to local cart', {name, total: cartItems.length});
+}
+
+function updateCartBar(){
+  const bar = document.getElementById('cartBar');
+  const count = cartItems.reduce((s,i)=>s+i.qty, 0);
+  const total = cartItems.reduce((s,i)=>s+(i.price*i.qty), 0);
+  
+  if(count === 0){ bar.style.display='none'; return; }
+  
+  bar.style.display = 'block';
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = `£${total.toFixed(2)}`;
+}
+
+function openCart(){
+  const modal = document.getElementById('cartModal');
+  const list = document.getElementById('cartList');
+  list.innerHTML = '';
+  
+  if(cartItems.length === 0){
+    list.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">Your basket is empty</p>';
+  } else {
+    cartItems.forEach((item, idx) => {
+      const div = document.createElement('div');
+      div.style.cssText = 'display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:center';
+      const img = item.image ? `<img src="${item.image}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0" />` : `<div style="width:48px;height:48px;border-radius:8px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🧴</div>`;
+      div.innerHTML = `${img}
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:500;color:var(--black);margin-bottom:2px;line-height:1.3">${item.name}</div>
+          <div style="font-size:12px;color:var(--gold)">£${item.price.toFixed(2)} × ${item.qty}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <button onclick="changeQty(${idx},-1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">−</button>
+          <span style="font-size:13px;font-weight:500;min-width:16px;text-align:center">${item.qty}</span>
+          <button onclick="changeQty(${idx},1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">+</button>
+        </div>`;
+      list.appendChild(div);
+    });
+  }
+  
+  const total = cartItems.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('cartModalTotal').textContent = `£${total.toFixed(2)}`;
+  modal.style.display = 'flex';
+}
+
+function changeQty(idx, delta){
+  cartItems[idx].qty += delta;
+  if(cartItems[idx].qty <= 0) cartItems.splice(idx, 1);
+  updateCartBar();
+  openCart(); // refresh modal
+}
+
+function closeCart(){ document.getElementById('cartModal').style.display='none'; }
+
+function goToCheckout(){
+  if(cartItems.length === 0) return;
+  // Build Shopify cart URL with all items
+  const params = cartItems.map(i=>`${i.variantId}:${i.qty}`).join(',');
+  const url = `https://cchairandbeauty.com/cart/${params}`;
+  log('Going to checkout', url);
+  window.open(url, '_blank');
 }
 
 function subNL(){const e=document.getElementById('nlE').value;if(!e)return;document.getElementById('nlWrap').innerHTML=`<div class="nl"><div style="text-align:center;padding:10px"><div style="font-size:36px;margin-bottom:10px">✦</div><h3 style="margin-bottom:6px">You're on the list!</h3><p>Welcome to the CC Hair & Beauty family</p></div></div>`;log('Newsletter',e);}
