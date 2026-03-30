@@ -14,16 +14,23 @@ export default async function handler(req, res) {
 
   const { ethnicity, hairType, concerns } = req.body;
 
-  // Fetch ALL products from Shopify
+  // ── Fetch ALL products from Shopify ───────────────────────────────────────
   let products = [];
-  if (SHOPIFY_TOKEN) {
+  let shopifyError = null;
+
+  if (!SHOPIFY_TOKEN) {
+    shopifyError = "SHOPIFY_ADMIN_TOKEN not set in environment variables";
+  } else {
     try {
       const shopRes = await fetch(
         `https://${SHOPIFY_DOMAIN}/admin/api/2025-04/products.json?limit=50&status=active`,
         { headers: { "X-Shopify-Access-Token": SHOPIFY_TOKEN, "Content-Type": "application/json" } }
       );
-      if (shopRes.ok) {
-        const shopData = await shopRes.json();
+      const shopText = await shopRes.text();
+      if (!shopRes.ok) {
+        shopifyError = `Shopify returned ${shopRes.status}: ${shopText.substring(0, 200)}`;
+      } else {
+        const shopData = JSON.parse(shopText);
         products = (shopData.products || []).map(p => ({
           id:        p.id,
           title:     p.title,
@@ -31,47 +38,58 @@ export default async function handler(req, res) {
           price:     p.variants?.[0]?.price || "0.00",
           variantId: p.variants?.[0]?.id,
           image:     p.images?.[0]?.src || null,
+          // Direct product URL — not a search string
           url:       `https://cchairandbeauty.com/products/${p.handle}`,
-          tags:      p.tags || "",
-          type:      p.product_type || "",
+          tags:      (p.tags || "").toLowerCase(),
+          type:      (p.product_type || "").toLowerCase(),
         }));
       }
-    } catch (e) { console.error("Shopify fetch error:", e.message); }
+    } catch (e) {
+      shopifyError = `Shopify fetch exception: ${e.message}`;
+    }
   }
 
+  // ── Build product list for Claude ─────────────────────────────────────────
   const productList = products.length
-    ? products.map(p => `- ${p.title} | Type: ${p.type} | Tags: ${p.tags} | Price: GBP ${parseFloat(p.price).toFixed(2)}`).join("\n")
-    : "- General hair care products available at cchairandbeauty.com";
+    ? products.map(p => `- "${p.title}" | url: ${p.url} | price: GBP ${parseFloat(p.price).toFixed(2)}`).join("\n")
+    : "- No products loaded. Recommend general hair care product types only.";
 
-  const prompt = `You are a luxury hair expert for CC Hair & Beauty, a premium UK hair and beauty retailer in Leeds.
+  // ── Run Claude AI analysis ────────────────────────────────────────────────
+  const prompt = `You are a luxury hair expert for CC Hair & Beauty, a premium UK hair retailer in Leeds at cchairandbeauty.com.
 
 Customer profile:
 - Hair background: ${ethnicity}
 - Hair type: ${hairType}
 - Hair concerns: ${(concerns||[]).join(", ")}
 
-Products available in our store:
+REAL products available in the CC Hair & Beauty store RIGHT NOW:
 ${productList}
 
-Create a COMPLETE A-Z hair care plan. Respond ONLY with this exact JSON, no markdown:
+IMPORTANT RULES:
+- Only recommend products from the list above
+- Use the EXACT product title as written in the list
+- If no suitable product exists in the list for a step, set product to null
+- Never invent product names
+
+Respond ONLY with this exact JSON, no markdown, no extra text:
 {
   "diagnosis": "2-3 sentences diagnosing their specific hair issues and root causes",
   "morningRoutine": [
-    {"step": "Step description", "product": "exact product name from store or null if not in store", "why": "why this product for this step"}
+    {"step": "Step description", "product": "EXACT product title from list or null", "why": "why this product"}
   ],
   "washDayRoutine": [
-    {"step": "Step description", "product": "exact product name from store or null", "why": "why this product"}
+    {"step": "Step description", "product": "EXACT product title from list or null", "why": "why this product"}
   ],
   "nightRoutine": [
-    {"step": "Step description", "product": "exact product name from store or null", "why": "why this product"}
+    {"step": "Step description", "product": "EXACT product title from list or null", "why": "why this product"}
   ],
   "toolsAndAccessories": [
-    {"category": "Brushes & Combs", "item": "product name from store or recommended type", "why": "why this tool for their hair type"},
-    {"category": "Electrical Tools", "item": "product name from store or recommended type", "why": "why this tool"},
-    {"category": "Sleeping Protection", "item": "product name from store or recommended type", "why": "why this for their hair"},
-    {"category": "Styling Accessories", "item": "product name from store or recommended type", "why": "why this"}
+    {"category": "Brushes & Combs", "item": "EXACT product title from list or best recommendation", "why": "why"},
+    {"category": "Electrical Tools", "item": "EXACT product title from list or best recommendation", "why": "why"},
+    {"category": "Sleeping Protection", "item": "EXACT product title from list or best recommendation", "why": "why"},
+    {"category": "Styling Accessories", "item": "EXACT product title from list or best recommendation", "why": "why"}
   ],
-  "keyTip": "One powerful expert tip specific to their exact hair texture and concerns"
+  "keyTip": "One powerful expert tip for their exact hair texture"
 }`;
 
   try {
@@ -94,8 +112,22 @@ Create a COMPLETE A-Z hair care plan. Respond ONLY with this exact JSON, no mark
     const clean    = text.replace(/```json|```/g, "").trim();
     const analysis = JSON.parse(clean);
 
-    return res.status(200).json({ ...analysis, products });
+    // Return everything including shopify debug info
+    return res.status(200).json({
+      ...analysis,
+      products,
+      _debug: {
+        productCount: products.length,
+        shopifyError: shopifyError || null,
+        domain: SHOPIFY_DOMAIN,
+        hasToken: !!SHOPIFY_TOKEN,
+      }
+    });
+
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({
+      error: error.message,
+      _debug: { shopifyError, productCount: products.length, hasToken: !!SHOPIFY_TOKEN }
+    });
   }
 }
