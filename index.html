@@ -41,7 +41,7 @@ h1 em{font-style:italic;color:var(--gold)}
 .btn:hover{background:#B8922A;box-shadow:0 6px 20px rgba(201,168,76,.35);transform:translateY(-1px)}
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .btn-dk{background:#1A1410;color:#FAF8F5}
-.btn-dk:hover{background:#2A2018;box-shadow:0 6px 20px rgba(10,8,7,.3)}
+.btn-dk:hover{background:#2A2018}
 .ghost{display:inline-flex;align-items:center;gap:6px;padding:10px 0;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;transition:color .2s;margin-bottom:16px}
 .ghost:hover{color:var(--gold)}
 .trial{background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:8px;padding:12px;text-align:center;font-size:12px;margin-bottom:16px;line-height:1.6}
@@ -69,12 +69,10 @@ h1 em{font-style:italic;color:var(--gold)}
 .pg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
 .pc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:all .2s;text-decoration:none;display:block;background:var(--card)}
 .pc:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(201,168,76,.15)}
-.pimg{width:100%;height:120px;object-fit:cover}
 .pph{width:100%;height:120px;background:linear-gradient(135deg,var(--gold-pale),#EEE);display:flex;align-items:center;justify-content:center;font-size:28px}
 .pi{padding:10px}
 .pn{font-size:12px;font-weight:500;color:var(--black);margin-bottom:3px;line-height:1.3}
 .pr{font-size:11px;color:var(--muted);line-height:1.4;margin-bottom:5px}
-.pp{font-size:13px;color:var(--gold);font-weight:500}
 .ps{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
 .tip{background:linear-gradient(135deg,var(--gold-pale),#FDF8EE);border:1px solid var(--gold-light);border-radius:10px;padding:16px;display:flex;gap:12px}
 .tic{font-size:22px;flex-shrink:0}
@@ -91,6 +89,9 @@ h1 em{font-style:italic;color:var(--gold)}
 .nlb:hover{background:#B8922A}
 .rbtn{display:block;margin:20px auto 0;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 .rbtn:hover{color:var(--gold)}
+/* Debug panel */
+#debugPanel{background:#1a1a2e;color:#00ff88;font-family:monospace;font-size:12px;padding:16px;border-radius:12px;margin-top:20px;display:none;word-break:break-all;white-space:pre-wrap;max-height:300px;overflow-y:auto}
+.dbtn{display:inline-block;padding:8px 16px;background:#00ff88;color:#1a1a2e;border:none;border-radius:8px;cursor:pointer;font-family:monospace;font-size:12px;font-weight:bold;margin-top:8px}
 @media(max-width:480px){.g3{grid-template-columns:1fr 1fr}.pg{grid-template-columns:1fr}.nlr{flex-direction:column}}
 </style>
 </head>
@@ -114,8 +115,8 @@ h1 em{font-style:italic;color:var(--gold)}
 <div class="step on" id="sAuth">
 <div class="card">
   <div style="text-align:center;margin-bottom:20px">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400" id="aTitle">Begin Your Consultation</div>
-    <div style="font-size:12px;color:var(--muted);margin-top:4px" id="aSub">Start free — no account needed</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400">Begin Your Consultation</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px">Start free — no account needed</div>
   </div>
   <div id="vTrial">
     <div class="trial">✦ <strong>Free Trial Consultation</strong> ✦<br>Get your personalised hair analysis today</div>
@@ -206,6 +207,14 @@ h1 em{font-style:italic;color:var(--gold)}
     <div class="pg" id="rProds"></div>
     <a href="https://cchairandbeauty.com" target="_blank"><button class="btn">View All CC Products →</button></a>
   </div>
+
+  <!-- DEBUG PANEL -->
+  <div class="card" style="border-color:#ff4444">
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#ff4444;margin-bottom:8px">🔧 Debug Info — Copy & Send to Developer</div>
+    <div id="debugPanel"></div>
+    <button class="dbtn" id="copyBtn" onclick="copyDebug()" style="display:none">📋 Copy Debug Info</button>
+  </div>
+
   <div id="nlWrap">
     <div class="nl">
       <h3>Stay <em>Beautiful</em></h3>
@@ -219,7 +228,7 @@ h1 em{font-style:italic;color:var(--gold)}
   <button class="rbtn" onclick="restart()">Start a New Consultation ↺</button>
 </div>
 
-</div><!-- end wrap -->
+</div>
 
 <script>
 const ETHNICITIES=[
@@ -248,11 +257,23 @@ const CONCERNS=[
   {id:'fine',lb:'Fine / Limp Hair',ic:'🪶'}
 ];
 
-// ── PASTE YOUR ANTHROPIC API KEY BELOW ──
-const API_KEY = 'PASTE_YOUR_ANTHROPIC_KEY_HERE';
-// ────────────────────────────────────────
-
 let S={user:null,eth:null,hair:null,cons:[]};
+let debugLog=[];
+
+function log(msg,data){
+  const entry=`[${new Date().toISOString().substr(11,8)}] ${msg}${data?' → '+JSON.stringify(data):''}`;
+  debugLog.push(entry);
+  console.log(entry);
+  const p=document.getElementById('debugPanel');
+  if(p){p.style.display='block';p.textContent=debugLog.join('\n');document.getElementById('copyBtn').style.display='inline-block';}
+}
+
+function copyDebug(){
+  navigator.clipboard.writeText(debugLog.join('\n')).then(()=>{
+    document.getElementById('copyBtn').textContent='✅ Copied!';
+    setTimeout(()=>document.getElementById('copyBtn').textContent='📋 Copy Debug Info',2000);
+  });
+}
 
 function show(id){
   ['vTrial','vSignup','vSignin'].forEach(v=>document.getElementById(v).style.display='none');
@@ -328,45 +349,53 @@ function loadCons(){
 
 async function analyse(){
   go('sLoad');
+  debugLog=[];
   const eth=ETHNICITIES.find(e=>e.id===S.eth)?.label||S.eth;
   const hair=(HAIR_TYPES[S.eth]||[]).find(h=>h.id===S.hair)?.lb||S.hair;
   const cons=S.cons.map(c=>CONCERNS.find(x=>x.id===c)?.lb||c);
 
-  const prompt=`You are a luxury hair expert for CC Hair & Beauty, a premium UK hair and beauty brand based at cchairandbeauty.com.
-
-Customer profile:
-- Hair background: ${eth}
-- Hair type: ${hair}
-- Concerns: ${cons.join(', ')}
-
-Respond ONLY with this exact JSON structure, no markdown, no extra text:
-{"diagnosis":"Write 2-3 sentences diagnosing their specific hair issues and causes","regime":["Step 1: description","Step 2: description","Step 3: description","Step 4: description","Step 5: description","Step 6: description"],"recommendations":[{"name":"CC Moisturising Shampoo","reason":"why this suits their hair type"},{"name":"CC Deep Conditioning Mask","reason":"why this suits their concerns"},{"name":"CC Leave-In Treatment","reason":"why this suits them"}],"keyTip":"One powerful expert tip specific to their exact hair texture and concerns"}`;
+  log('Starting analysis',{eth,hair,cons});
+  log('Calling /api/analyse...');
 
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/api/analyse',{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':API_KEY,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-calls':'true'
-      },
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,messages:[{role:'user',content:prompt}]})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ethnicity:eth,hairType:hair,concerns:cons,products:[]})
     });
-    const d=await r.json();
-    if(!r.ok)throw new Error(d.error?.message||'API error');
-    const txt=d.content?.map(b=>b.text||'').join('')||'{}';
-    const a=JSON.parse(txt.replace(/```json|```/g,'').trim());
+
+    log('Response status',{status:r.status,ok:r.ok});
+
+    const raw=await r.text();
+    log('Raw response',raw.substring(0,500));
+
+    if(!r.ok){
+      log('ERROR - API returned error',{status:r.status,body:raw});
+      go('sRes');
+      showErr(`API Error ${r.status}: ${raw.substring(0,200)}`);
+      return;
+    }
+
+    const a=JSON.parse(raw);
+    log('Parsed successfully',{hasdiagnosis:!!a.diagnosis,regimeSteps:a.regime?.length});
     showRes(a);
+
   }catch(err){
-    console.error('Analysis error:',err);
-    showRes({
-      diagnosis:`Based on your ${hair} hair type and ${cons.join(', ')} concerns, your hair needs targeted moisture, protein balance, and a consistent care routine tailored to your texture.`,
-      regime:['Step 1: Co-wash or sulphate-free shampoo twice weekly','Step 2: Deep condition with heat for 20-30 minutes weekly','Step 3: Apply leave-in conditioner to damp hair','Step 4: Seal with a light oil or butter','Step 5: Protective style to retain length','Step 6: Refresh with water and leave-in between wash days'],
-      recommendations:[{name:'CC Moisturising Shampoo',reason:'Gentle cleansing without stripping natural oils'},{name:'CC Deep Conditioning Mask',reason:'Restores moisture and strengthens hair'},{name:'CC Leave-In Treatment',reason:'Daily moisture and detangling for your texture'}],
-      keyTip:`For ${hair} hair, consistency is key — stick to your regime for at least 8 weeks to see a real transformation in moisture, strength and shine.`
-    });
+    log('EXCEPTION caught',{message:err.message,stack:err.stack?.substring(0,300)});
+    go('sRes');
+    showErr('Exception: '+err.message);
   }
+}
+
+function showErr(msg){
+  document.getElementById('rGreet').textContent=`Hello, ${S.user?.name||'Beautiful'} ✦`;
+  document.getElementById('rDiag').textContent='We encountered an issue. See debug info below.';
+  document.getElementById('rTipCard').style.display='none';
+  document.getElementById('rProdCard').style.display='none';
+  const p=document.getElementById('debugPanel');
+  p.style.display='block';
+  p.textContent=debugLog.join('\n')+'\n\nERROR: '+msg;
+  document.getElementById('copyBtn').style.display='inline-block';
 }
 
 function showRes(a){
@@ -392,6 +421,9 @@ function showRes(a){
     });
     document.getElementById('rProdCard').style.display='';
   }else document.getElementById('rProdCard').style.display='none';
+  // Hide debug if success
+  document.getElementById('debugPanel').style.display='none';
+  document.getElementById('copyBtn').style.display='none';
 }
 
 function subNL(){
@@ -402,10 +434,10 @@ function subNL(){
 
 function restart(){
   S={user:S.user,eth:null,hair:null,cons:[]};
+  debugLog=[];
   go('sEth',loadEth);
 }
 
-// Init
 loadEth();
 </script>
 </body>
