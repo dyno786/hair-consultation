@@ -339,11 +339,38 @@ async function analyse(){
   }
 }
 
-// Find matching product from store
+// Find matching product from store by exact or partial title match
 function findProduct(name, allProducts){
   if(!name||!allProducts?.length) return null;
-  const n=name.toLowerCase();
-  return allProducts.find(p=>p.title?.toLowerCase().includes(n.split(' ')[0])||n.includes(p.title?.toLowerCase().split(' ')[0])||p.title?.toLowerCase().includes(n.split(' ')[1]||'NOMATCH'))||null;
+  const n=name.toLowerCase().trim();
+  // Try exact match first
+  let match = allProducts.find(p=>p.title?.toLowerCase().trim()===n);
+  if(match) return match;
+  // Try if product title contains the name
+  match = allProducts.find(p=>p.title?.toLowerCase().includes(n));
+  if(match) return match;
+  // Try if name contains the product title
+  match = allProducts.find(p=>n.includes(p.title?.toLowerCase()));
+  if(match) return match;
+  // Try first significant word match (skip words under 4 chars)
+  const words = n.split(' ').filter(w=>w.length>3);
+  for(const word of words){
+    match = allProducts.find(p=>p.title?.toLowerCase().includes(word));
+    if(match) return match;
+  }
+  return null;
+}
+
+// Log debug info from API response
+function logDebug(a){
+  if(a._debug){
+    log('Shopify debug',{
+      productCount: a._debug.productCount,
+      hasToken: a._debug.hasToken,
+      domain: a._debug.domain,
+      error: a._debug.shopifyError||'none'
+    });
+  }
 }
 
 // Render a routine step with optional inline product
@@ -358,7 +385,7 @@ function renderStep(container, steps, allProducts){
       const price=prod?`<span class="inline-prod-price">£${parseFloat(prod.price).toFixed(2)}</span>`:'';
       const btn=prod?.variantId
         ?`<button class="atc-btn" onclick="addToCart(${prod.variantId},'${prod.handle}',this)">Add to Cart</button>`
-        :`<a href="https://cchairandbeauty.com/search?q=${encodeURIComponent(s.product)}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">Find →</a>`;
+        :`<a href="https://cchairandbeauty.com/products/${prod?.handle||''}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">View Product →</a>`;
       prodHtml=`<div class="inline-prod">${img}<div class="inline-prod-info"><div class="inline-prod-name">${prod?.title||s.product}</div><div class="inline-prod-why">${s.why||''}</div><div class="inline-prod-row">${price}${btn}</div></div></div>`;
     }
     div.innerHTML=`<div class="step-left">${i+1}</div><div class="step-right"><div class="step-text">${s.step}</div>${prodHtml}</div>`;
@@ -394,7 +421,7 @@ function showRes(a){
     const price=prod?`<span class="tool-price">£${parseFloat(prod.price).toFixed(2)}</span>`:'';
     const btn=prod?.variantId
       ?`<button class="atc-btn" onclick="addToCart(${prod.variantId},'${prod.handle}',this)">Add to Cart</button>`
-      :`<a href="https://cchairandbeauty.com/search?q=${encodeURIComponent(tool.item)}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">Find →</a>`;
+      :`<a href="https://cchairandbeauty.com/products/${prod?.handle||''}" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase">View Product →</a>`;
     card.innerHTML=`${img}<div class="tool-info"><div class="tool-cat">${tool.category}</div><div class="tool-name">${prod?.title||tool.item}</div><div class="tool-why">${tool.why}</div><div class="tool-bottom">${price}${btn}</div></div>`;
     tEl.appendChild(card);
   });
@@ -403,6 +430,7 @@ function showRes(a){
   if(a.keyTip){document.getElementById('rTip').textContent=a.keyTip;document.getElementById('rTipCard').style.display='';}
   else document.getElementById('rTipCard').style.display='none';
 
+  logDebug(a);
   log('=== RESULTS SHOWN ===');
 }
 
