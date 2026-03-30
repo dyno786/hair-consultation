@@ -8,7 +8,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-light:#E8D5A3;--gold-pale:#F5EDD6;--black:#0A0807;--off-white:#FAF8F5;--text:#1A1410;--muted:#8A7A6A;--card:#FFFFFF;--border:rgba(201,168,76,0.25)}
-body{font-family:'Jost',sans-serif;background:var(--off-white);color:var(--text);min-height:100vh}
+body{font-family:'Jost',sans-serif;background:var(--off-white);color:var(--text);min-height:100vh;padding-bottom:80px}
 .header{text-align:center;padding:40px 20px 24px}
 .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:40px;padding:6px 18px;margin-bottom:16px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
 .badge::before,.badge::after{content:'✦';font-size:8px}
@@ -16,7 +16,7 @@ h1{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,6vw,56px);font-we
 h1 em{font-style:italic;color:var(--gold)}
 .sub{margin-top:10px;font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
 .line{width:50px;height:1px;background:var(--gold);margin:16px auto 0;opacity:.5}
-.wrap{max-width:640px;margin:0 auto;padding:0 16px 60px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 20px}
 .step{display:none}.step.on{display:block}
 .slabel{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
 .stitle{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:20px}
@@ -89,13 +89,22 @@ h1 em{font-style:italic;color:var(--gold)}
 .nlb:hover{background:#B8922A}
 .rbtn{display:block;margin:20px auto 0;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
 .rbtn:hover{color:var(--gold)}
-/* Debug panel */
-#debugPanel{background:#1a1a2e;color:#00ff88;font-family:monospace;font-size:12px;padding:16px;border-radius:12px;margin-top:20px;display:none;word-break:break-all;white-space:pre-wrap;max-height:300px;overflow-y:auto}
-.dbtn{display:inline-block;padding:8px 16px;background:#00ff88;color:#1a1a2e;border:none;border-radius:8px;cursor:pointer;font-family:monospace;font-size:12px;font-weight:bold;margin-top:8px}
+/* Floating debug bar - always visible at bottom */
+#debugBar{position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;border-top:2px solid #00ff88;z-index:9999;font-family:monospace;font-size:11px}
+#debugBar .dbar-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;cursor:pointer;color:#00ff88}
+#debugBar .dbar-header span{font-weight:bold}
+#debugBar .dbar-toggle{background:#00ff88;color:#1a1a2e;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-family:monospace;font-size:11px;font-weight:bold}
+#debugBar .dbar-body{display:none;padding:0 16px 12px;max-height:200px;overflow-y:auto;color:#aaffcc;white-space:pre-wrap;word-break:break-all;border-top:1px solid #00ff8833}
+#debugBar .dbar-body.open{display:block}
+#debugBar .dbar-actions{display:flex;gap:8px;padding:8px 16px 12px;border-top:1px solid #00ff8833}
+#debugBar .dbar-actions.hidden{display:none}
+.dcopy{background:#00ff88;color:#1a1a2e;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:monospace;font-size:11px;font-weight:bold}
+.dclear{background:transparent;color:#ff6666;border:1px solid #ff6666;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:monospace;font-size:11px}
 @media(max-width:480px){.g3{grid-template-columns:1fr 1fr}.pg{grid-template-columns:1fr}.nlr{flex-direction:column}}
 </style>
 </head>
 <body>
+
 <div class="header">
   <div class="badge">CC Hair & Beauty</div>
   <h1>Your <em>Personalised</em><br>Hair Consultation</h1>
@@ -207,14 +216,6 @@ h1 em{font-style:italic;color:var(--gold)}
     <div class="pg" id="rProds"></div>
     <a href="https://cchairandbeauty.com" target="_blank"><button class="btn">View All CC Products →</button></a>
   </div>
-
-  <!-- DEBUG PANEL -->
-  <div class="card" style="border-color:#ff4444">
-    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#ff4444;margin-bottom:8px">🔧 Debug Info — Copy & Send to Developer</div>
-    <div id="debugPanel"></div>
-    <button class="dbtn" id="copyBtn" onclick="copyDebug()" style="display:none">📋 Copy Debug Info</button>
-  </div>
-
   <div id="nlWrap">
     <div class="nl">
       <h3>Stay <em>Beautiful</em></h3>
@@ -228,9 +229,67 @@ h1 em{font-style:italic;color:var(--gold)}
   <button class="rbtn" onclick="restart()">Start a New Consultation ↺</button>
 </div>
 
+</div><!-- end wrap -->
+
+<!-- FLOATING DEBUG BAR — always visible at bottom of every page -->
+<div id="debugBar">
+  <div class="dbar-header" onclick="toggleDebug()">
+    <span>🔧 Debug Console <span id="dbCount" style="color:#ffcc00"></span></span>
+    <button class="dbar-toggle" id="dbToggleBtn">OPEN ▲</button>
+  </div>
+  <div class="dbar-body" id="dbBody"></div>
+  <div class="dbar-actions hidden" id="dbActions">
+    <button class="dcopy" onclick="copyDebug()">📋 Copy All — Paste to Claude</button>
+    <button class="dclear" onclick="clearDebug()">Clear</button>
+  </div>
 </div>
 
 <script>
+// ── Debug system ─────────────────────────────────────────────────────────────
+let logs=[];
+let dbOpen=false;
+
+function log(msg,data){
+  const t=new Date().toISOString().substr(11,8);
+  const entry=`[${t}] ${msg}${data!==undefined?' → '+JSON.stringify(data,null,0):''}`;
+  logs.push(entry);
+  const body=document.getElementById('dbBody');
+  const count=document.getElementById('dbCount');
+  if(body) body.textContent=logs.join('\n');
+  if(count) count.textContent=`(${logs.length} logs)`;
+  document.getElementById('dbActions').classList.remove('hidden');
+  if(dbOpen && body) body.scrollTop=body.scrollHeight;
+  console.log(entry);
+}
+
+function toggleDebug(){
+  dbOpen=!dbOpen;
+  document.getElementById('dbBody').classList.toggle('open',dbOpen);
+  document.getElementById('dbToggleBtn').textContent=dbOpen?'CLOSE ▼':'OPEN ▲';
+  if(dbOpen){
+    const body=document.getElementById('dbBody');
+    if(body) body.scrollTop=body.scrollHeight;
+  }
+}
+
+function copyDebug(){
+  const txt=logs.join('\n');
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.querySelector('.dcopy');
+    btn.textContent='✅ Copied! Now paste to Claude';
+    setTimeout(()=>btn.textContent='📋 Copy All — Paste to Claude',3000);
+  }).catch(()=>{
+    prompt('Copy this debug info:',logs.join('\n'));
+  });
+}
+
+function clearDebug(){
+  logs=[];
+  document.getElementById('dbBody').textContent='';
+  document.getElementById('dbCount').textContent='';
+}
+
+// ── Data ─────────────────────────────────────────────────────────────────────
 const ETHNICITIES=[
   {id:'european',label:'European',ic:'🌿'},
   {id:'asian',label:'Asian (East/SE)',ic:'🌸'},
@@ -258,47 +317,46 @@ const CONCERNS=[
 ];
 
 let S={user:null,eth:null,hair:null,cons:[]};
-let debugLog=[];
 
-function log(msg,data){
-  const entry=`[${new Date().toISOString().substr(11,8)}] ${msg}${data?' → '+JSON.stringify(data):''}`;
-  debugLog.push(entry);
-  console.log(entry);
-  const p=document.getElementById('debugPanel');
-  if(p){p.style.display='block';p.textContent=debugLog.join('\n');document.getElementById('copyBtn').style.display='inline-block';}
-}
+log('App loaded — version 4.0');
+log('Page URL',window.location.href);
 
-function copyDebug(){
-  navigator.clipboard.writeText(debugLog.join('\n')).then(()=>{
-    document.getElementById('copyBtn').textContent='✅ Copied!';
-    setTimeout(()=>document.getElementById('copyBtn').textContent='📋 Copy Debug Info',2000);
-  });
-}
-
+// ── Auth ──────────────────────────────────────────────────────────────────────
 function show(id){
   ['vTrial','vSignup','vSignin'].forEach(v=>document.getElementById(v).style.display='none');
   document.getElementById(id).style.display='';
+  log('Auth view changed',id);
 }
-function startTrial(){S.user={name:'Guest',trial:true};go('sEth',loadEth)}
+function startTrial(){
+  S.user={name:'Guest',trial:true};
+  log('Trial started');
+  go('sEth',loadEth);
+}
 function doSignup(){
   const n=document.getElementById('sName').value,e=document.getElementById('sEmail').value;
   const t=document.getElementById('cT').checked;
   if(!n||!e){document.getElementById('sErr').textContent='Please fill in all fields.';return}
   if(!t){document.getElementById('sErr').textContent='Please accept the terms.';return}
-  S.user={name:n,email:e};go('sEth',loadEth);
+  S.user={name:n,email:e};
+  log('Signed up',{name:n});
+  go('sEth',loadEth);
 }
 function doSignin(){
   const e=document.getElementById('siEmail').value;
   if(!e)return;
-  S.user={name:'Member',email:e};go('sEth',loadEth);
+  S.user={name:'Member',email:e};
+  log('Signed in',{email:e});
+  go('sEth',loadEth);
 }
 
+// ── Navigation ────────────────────────────────────────────────────────────────
 function go(id,cb){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   updateProg(id);
   if(cb)cb();
   window.scrollTo({top:0,behavior:'smooth'});
+  log('Navigated to step',id);
 }
 function updateProg(id){
   const steps=['sEth','sHair','sCon'];
@@ -310,28 +368,43 @@ function updateProg(id){
   });
 }
 
+// ── Ethnicity ─────────────────────────────────────────────────────────────────
 function loadEth(){
   const g=document.getElementById('ethGrid');g.innerHTML='';
   ETHNICITIES.forEach(e=>{
     const b=document.createElement('button');
     b.className='sb'+(S.eth===e.id?' sel':'');
     b.innerHTML=`<span class="ic">${e.ic}</span><span class="lb">${e.label}</span>`;
-    b.onclick=()=>{S.eth=e.id;S.hair=null;document.querySelectorAll('#ethGrid .sb').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');document.getElementById('btnE').disabled=false};
+    b.onclick=()=>{
+      S.eth=e.id;S.hair=null;
+      document.querySelectorAll('#ethGrid .sb').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      document.getElementById('btnE').disabled=false;
+      log('Ethnicity selected',e.id);
+    };
     g.appendChild(b);
   });
 }
 
+// ── Hair Types ────────────────────────────────────────────────────────────────
 function loadHair(){
   const l=document.getElementById('hairList');l.innerHTML='';
   (HAIR_TYPES[S.eth]||[]).forEach(h=>{
     const b=document.createElement('button');
     b.className='hb'+(S.hair===h.id?' sel':'');
     b.innerHTML=`<span class="dot"></span><span class="lb">${h.lb}</span>`;
-    b.onclick=()=>{S.hair=h.id;document.querySelectorAll('.hb').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');document.getElementById('btnH').disabled=false};
+    b.onclick=()=>{
+      S.hair=h.id;
+      document.querySelectorAll('.hb').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      document.getElementById('btnH').disabled=false;
+      log('Hair type selected',h.id);
+    };
     l.appendChild(b);
   });
 }
 
+// ── Concerns ──────────────────────────────────────────────────────────────────
 function loadCons(){
   const g=document.getElementById('conGrid');g.innerHTML='';
   CONCERNS.forEach(c=>{
@@ -342,20 +415,22 @@ function loadCons(){
       if(S.cons.includes(c.id)){S.cons=S.cons.filter(x=>x!==c.id);b.classList.remove('sel')}
       else{S.cons.push(c.id);b.classList.add('sel')}
       document.getElementById('btnC').disabled=S.cons.length===0;
+      log('Concerns updated',S.cons);
     };
     g.appendChild(b);
   });
 }
 
+// ── Analysis ──────────────────────────────────────────────────────────────────
 async function analyse(){
   go('sLoad');
-  debugLog=[];
   const eth=ETHNICITIES.find(e=>e.id===S.eth)?.label||S.eth;
   const hair=(HAIR_TYPES[S.eth]||[]).find(h=>h.id===S.hair)?.lb||S.hair;
   const cons=S.cons.map(c=>CONCERNS.find(x=>x.id===c)?.lb||c);
 
-  log('Starting analysis',{eth,hair,cons});
-  log('Calling /api/analyse...');
+  log('=== ANALYSIS STARTED ===');
+  log('Profile',{eth,hair,cons});
+  log('Fetching /api/analyse...');
 
   try{
     const r=await fetch('/api/analyse',{
@@ -364,40 +439,43 @@ async function analyse(){
       body:JSON.stringify({ethnicity:eth,hairType:hair,concerns:cons,products:[]})
     });
 
-    log('Response status',{status:r.status,ok:r.ok});
+    log('HTTP response',{status:r.status,ok:r.ok,statusText:r.statusText});
 
     const raw=await r.text();
-    log('Raw response',raw.substring(0,500));
+    log('Raw response (first 400 chars)',raw.substring(0,400));
 
     if(!r.ok){
-      log('ERROR - API returned error',{status:r.status,body:raw});
-      go('sRes');
-      showErr(`API Error ${r.status}: ${raw.substring(0,200)}`);
+      log('ERROR — server returned non-OK status');
+      showRes({
+        diagnosis:`Server error (${r.status}). See debug panel for details.`,
+        regime:[],recommendations:[],keyTip:''
+      });
       return;
     }
 
-    const a=JSON.parse(raw);
-    log('Parsed successfully',{hasdiagnosis:!!a.diagnosis,regimeSteps:a.regime?.length});
+    let a;
+    try{
+      a=JSON.parse(raw);
+      log('JSON parsed OK',{keys:Object.keys(a)});
+    }catch(pe){
+      log('JSON PARSE ERROR',pe.message);
+      showRes({diagnosis:'Response parse error. See debug panel.',regime:[],recommendations:[],keyTip:''});
+      return;
+    }
+
+    log('=== SUCCESS ===');
     showRes(a);
 
   }catch(err){
-    log('EXCEPTION caught',{message:err.message,stack:err.stack?.substring(0,300)});
-    go('sRes');
-    showErr('Exception: '+err.message);
+    log('NETWORK/FETCH ERROR',{message:err.message});
+    showRes({
+      diagnosis:'Network error — could not reach the server. See debug panel.',
+      regime:[],recommendations:[],keyTip:''
+    });
   }
 }
 
-function showErr(msg){
-  document.getElementById('rGreet').textContent=`Hello, ${S.user?.name||'Beautiful'} ✦`;
-  document.getElementById('rDiag').textContent='We encountered an issue. See debug info below.';
-  document.getElementById('rTipCard').style.display='none';
-  document.getElementById('rProdCard').style.display='none';
-  const p=document.getElementById('debugPanel');
-  p.style.display='block';
-  p.textContent=debugLog.join('\n')+'\n\nERROR: '+msg;
-  document.getElementById('copyBtn').style.display='inline-block';
-}
-
+// ── Results ───────────────────────────────────────────────────────────────────
 function showRes(a){
   go('sRes');
   document.getElementById('rGreet').textContent=`Hello, ${S.user?.name||'Beautiful'} ✦`;
@@ -421,20 +499,18 @@ function showRes(a){
     });
     document.getElementById('rProdCard').style.display='';
   }else document.getElementById('rProdCard').style.display='none';
-  // Hide debug if success
-  document.getElementById('debugPanel').style.display='none';
-  document.getElementById('copyBtn').style.display='none';
 }
 
 function subNL(){
   const e=document.getElementById('nlE').value;
   if(!e)return;
   document.getElementById('nlWrap').innerHTML=`<div class="nl"><div style="text-align:center;padding:10px"><div style="font-size:36px;margin-bottom:10px">✦</div><h3 style="margin-bottom:6px">You're on the list!</h3><p>Welcome to the CC Hair & Beauty family</p></div></div>`;
+  log('Newsletter subscribed',e);
 }
 
 function restart(){
   S={user:S.user,eth:null,hair:null,cons:[]};
-  debugLog=[];
+  log('=== RESTARTED ===');
   go('sEth',loadEth);
 }
 
