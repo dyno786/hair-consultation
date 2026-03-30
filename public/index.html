@@ -9,9 +9,15 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--gold:#C9A84C;--gold-light:#E8D5A3;--gold-pale:#F5EDD6;--black:#0A0807;--off-white:#FAF8F5;--text:#1A1410;--muted:#8A7A6A;--card:#FFFFFF;--border:rgba(201,168,76,0.25)}
 body{font-family:'Jost',sans-serif;background:var(--off-white);color:var(--text);min-height:100vh;padding-bottom:70px}
-.header{text-align:center;padding:40px 20px 24px}
-.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:40px;padding:6px 18px;margin-bottom:16px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
-.badge::before,.badge::after{content:'✦';font-size:8px}
+.header{text-align:center;padding:0 0 24px;background:linear-gradient(180deg,#1B3A8C 0%,#1B3A8C 180px,var(--off-white) 180px)}
+/* Logo bar */
+.logo-wrap{display:flex;align-items:center;justify-content:center;gap:16px;padding:20px 20px 16px;background:linear-gradient(135deg,#1B3A8C,#152d6e)}
+.logo-img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+.logo-text{text-align:left}
+.logo-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#FFFFFF;letter-spacing:0.5px;line-height:1.1}
+.logo-url{font-size:11px;color:rgba(255,255,255,.6);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.header-divider{height:3px;background:linear-gradient(90deg,transparent,#C8102E,#C8102E,transparent);margin-bottom:28px}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,6vw,56px);font-weight:300;line-height:1.1;padding:0 20px}
 h1{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,6vw,56px);font-weight:300;line-height:1.1}
 h1 em{font-style:italic;color:var(--gold)}
 .sub{margin-top:10px;font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
@@ -136,7 +142,14 @@ h1 em{font-style:italic;color:var(--gold)}
 </head>
 <body>
 <div class="header">
-  <div class="badge">CC Hair & Beauty</div>
+  <div class="logo-wrap">
+    <img src="/logo.png" alt="CC Hair & Beauty" class="logo-img" onerror="this.style.display='none'" />
+    <div class="logo-text">
+      <div class="logo-brand">CC Hair &amp; Beauty</div>
+      <div class="logo-url">cchairandbeauty.com</div>
+    </div>
+  </div>
+  <div class="header-divider"></div>
   <h1>Your <em>Personalised</em><br>Hair Consultation</h1>
   <p class="sub">Luxury · Expertise · Results</p>
   <div class="line"></div>
