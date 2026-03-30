@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CC Debug — Staff Only</title>
+<style>
+body{font-family:monospace;background:#0d0d1a;color:#00ff88;margin:0;padding:20px}
+h2{color:#ffcc00;font-size:16px;margin-bottom:16px}
+.section{background:#1a1a2e;border:1px solid #00ff8833;border-radius:8px;padding:16px;margin-bottom:16px}
+.label{font-size:11px;color:#888;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.val{font-size:13px;color:#aaffcc;word-break:break-all}
+.btn{background:#00ff88;color:#0d0d1a;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-family:monospace;font-weight:bold;font-size:12px;margin:4px}
+.err{color:#ff6666}
+.ok{color:#00ff88}
+iframe{display:none}
+</style>
+</head>
+<body>
+<h2>🔧 CC Hair & Beauty — Staff Debug Panel</h2>
+
+<div class="section">
+  <div class="label">Shopify Connection</div>
+  <div class="val" id="shopifyStatus">Testing...</div>
+</div>
+
+<div class="section">
+  <div class="label">Environment Variables</div>
+  <div class="val" id="envStatus">Loading...</div>
+</div>
+
+<div class="section">
+  <div class="label">Product Count</div>
+  <div class="val" id="productCount">Loading...</div>
+</div>
+
+<div class="section">
+  <div class="label">Actions</div>
+  <button class="btn" onclick="testShopify()">🔄 Test Shopify</button>
+  <button class="btn" onclick="testAnalyse()">🤖 Test AI Analysis</button>
+  <button class="btn" onclick="clearLogs()">🗑 Clear Logs</button>
+</div>
+
+<div class="section">
+  <div class="label">Logs</div>
+  <div class="val" id="logs">Ready...</div>
+</div>
+
+<script>
+function log(msg){
+  const el=document.getElementById('logs');
+  const t=new Date().toISOString().substr(11,8);
+  el.textContent=`[${t}] ${msg}\n`+el.textContent;
+}
+function clearLogs(){document.getElementById('logs').textContent='Cleared';}
+
+async function testShopify(){
+  log('Testing Shopify connection...');
+  document.getElementById('shopifyStatus').textContent='Testing...';
+  try{
+    const r=await fetch('/api/shopify-test');
+    const d=await r.json();
+    const el=document.getElementById('shopifyStatus');
+    el.className='val '+(d.status.includes('SUCCESS')?'ok':'err');
+    el.textContent=JSON.stringify(d,null,2);
+    document.getElementById('productCount').textContent=d.productCount||'0';
+    document.getElementById('envStatus').textContent=JSON.stringify(d.checks,null,2);
+    log('Shopify test done: '+d.status);
+  }catch(e){
+    document.getElementById('shopifyStatus').textContent='ERROR: '+e.message;
+    log('ERROR: '+e.message);
+  }
+}
+
+async function testAnalyse(){
+  log('Testing AI analysis...');
+  try{
+    const r=await fetch('/api/analyse',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ethnicity:'Afro-Caribbean',hairType:'4A – Coily S-Pattern',concerns:['Dry & Brittle']})
+    });
+    const d=await r.json();
+    document.getElementById('logs').textContent=
+      `AI TEST RESULT:\n${JSON.stringify(d,null,2)}\n\n`+
+      document.getElementById('logs').textContent;
+    log('AI test done — products returned: '+(d.products?.length||0));
+  }catch(e){
+    log('AI ERROR: '+e.message);
+  }
+}
+
+// Auto-test on load
+testShopify();
+</script>
+</body>
+</html>
